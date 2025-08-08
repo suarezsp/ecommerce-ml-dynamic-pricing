@@ -20,7 +20,7 @@ cd <nombre-del-repo>
 ### 2. Activate venv
 
 ```bash
-cd backend
+cd src/redux/ML
 
 python -m venv venv
 
