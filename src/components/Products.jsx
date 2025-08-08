@@ -21,22 +21,38 @@ const Products = () => {
   };
 
   useEffect(() => {
-    const getProducts = async () => {
-      setLoading(true);
+  const getProducts = async () => {
+    setLoading(true);
+
+    try {
       const response = await fetch("https://fakestoreapi.com/products/");
-      if (componentMounted) {
-        setData(await response.clone().json());
-        setFilter(await response.json());
-        setLoading(false);
-      }
+      const productsData = await response.json();
 
-      return () => {
-        componentMounted = false;
-      };
-    };
+      const pricesResponse = await fetch("http://localhost:5050/dynamic-prices");
+      const suggestedPrices = await pricesResponse.json();
 
-    getProducts();
-  }, []);
+      const productsWithSuggestions = productsData.map(product => {
+        const match = suggestedPrices.find(p => p.id === product.id);
+        return {
+          ...product,
+          suggested_price: match ? match.suggested_price : product.price
+        };
+      });
+
+      setData(productsWithSuggestions);
+      setFilter(productsWithSuggestions);
+      setLoading(false);
+
+    } catch (error) {
+      console.error("Error fetching products or prices:", error);
+      setLoading(false);
+    }
+  };
+
+  getProducts();
+}, []);
+
+
 
   const Loading = () => {
     return (
@@ -130,9 +146,13 @@ const Products = () => {
                   </p>
                 </div>
                 <ul className="list-group list-group-flush">
-                  <li className="list-group-item lead">$ {product.price}</li>
-                  {/* <li className="list-group-item">Dapibus ac facilisis in</li>
-                    <li className="list-group-item">Vestibulum at eros</li> */}
+                  <li className="list-group-item lead">
+                    $ {product.price} 
+                    <br />
+                    <small className="text-success">
+                      Suggested price by Rating: ${product.suggested_price}
+                    </small>
+                  </li>
                 </ul>
                 <div className="card-body">
                   <Link

@@ -1,35 +1,17 @@
-## Run Locally
+# E-commerce Product Catalog with Dynamic Pricing (ML)
 
-Clone the project
+---
 
-```bash
-  git clone https://dredsoft-labs-admin@bitbucket.org/dredsoft-labs/ecommerce.git
-```
+## Machine Learning route
 
-Go to the project directory
+- `/src/redux/ML/server.py` - Flask server with linear regression ML model for dynamic prices based on rating.
 
-```bash
-  cd ecommerce
-```
+---
 
-Install dependencies
+## How to install
+
+### 1. Clonar el repositorio
 
 ```bash
-  npm install
-
-  or 
-
-  npm install react-material-ui-carousel --save --legacy-peer-deps
-```
-
-Start the server
-
-```bash
-  npm start
-```
-
-The server should now be running. You can access the application by opening a web browser and entering the following URL:
-
-```bash
-  http://localhost:3000
-```
+git clone <URL-del-repositorio>
+cd <nombre-del-repo>
